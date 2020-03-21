@@ -1,15 +1,25 @@
-/*
+
 package com.xiaoyang.accountservice;
 
-import org.junit.jupiter.api.Test;
+import com.xiaoyang.accountservice.mapper.AccountMapper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class AccountServiceApplicationTests {
+public class AccountServiceApplicationTests {
+
+    @Autowired
+    AccountMapper accountMapper;
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+
+        System.out.println(accountMapper.selectAccountById(1L));
     }
 
 }
-*/
+
