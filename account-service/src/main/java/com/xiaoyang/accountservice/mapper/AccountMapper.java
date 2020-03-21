@@ -1,14 +1,12 @@
 package com.xiaoyang.accountservice.mapper;
 
 import com.xiaoyang.accountservice.entity.Account;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.*;
+import java.math.BigDecimal;
 
 /**
  * @author WXY
@@ -27,6 +25,7 @@ public interface AccountMapper {
     @Select("select * from account where user_id = #{userId}")
     Account selectAccountById(Long userId);
 
-
+    @Update("update account set residue=residue-#{quota},used=used+#{quota} where user_id=#{userId}")
+    Integer consume(Long userId, BigDecimal quota);
 
 }
