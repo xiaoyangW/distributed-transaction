@@ -17,6 +17,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void consume(Long userId, BigDecimal quota) {
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("account consume start :{}",userId);
         accountMapper.consume(userId, quota);
         log.info("account consume end");
