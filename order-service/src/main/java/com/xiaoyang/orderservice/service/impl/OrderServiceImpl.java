@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrderMapper orderMapper;
+    private  OrderMapper orderMapper;
     @Autowired
     private AccountService accountService;
     @Override
