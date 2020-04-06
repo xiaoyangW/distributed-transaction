@@ -35,6 +35,6 @@ public class OrderServiceImpl implements OrderService {
         accountService.consume(order.getUserId(),order.getMoney());
 
         log.info("order create end");
-        throw new RuntimeException();
+        //throw new RuntimeException();
     }
 }

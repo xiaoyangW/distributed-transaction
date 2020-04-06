@@ -1,3 +1,4 @@
+/*
 package com.xiaoyang.orderservice.config;
 
 import feign.RequestInterceptor;
@@ -8,9 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+*/
 /**
  * @author WXY
- */
+ *//*
+
 @Component
 public class SeataFeignClientInterceptor implements RequestInterceptor {
     @Override
@@ -21,3 +24,4 @@ public class SeataFeignClientInterceptor implements RequestInterceptor {
         }
     }
 }
+*/
