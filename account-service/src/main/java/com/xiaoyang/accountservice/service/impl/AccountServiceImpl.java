@@ -6,6 +6,7 @@ import io.seata.core.context.RootContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -17,6 +18,7 @@ public class AccountServiceImpl implements AccountService {
     AccountMapper accountMapper;
 
     @Override
+    @Transactional
     public void consume(Long userId, BigDecimal quota) {
         /*try {
             Thread.sleep(10000);
