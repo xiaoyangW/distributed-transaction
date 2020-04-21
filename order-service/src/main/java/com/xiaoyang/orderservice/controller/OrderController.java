@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 /**
  * @author WXY
  */
@@ -31,12 +33,15 @@ public class OrderController {
 
     @PostMapping("create")
     public String create(@RequestBody Order order) {
+        order.setOrderNo(UUID.randomUUID().toString());
         orderService.createOrder(order);
         return "success";
     }
 
-    @PostMapping("mqcreate")
+    @PostMapping("mq-create")
     public String mqcreate(@RequestBody Order order) {
+        //生成订单号
+        order.setOrderNo(UUID.randomUUID().toString());
         String s = JSONArray.toJSONString(order);
         //发送事务消息,（消息组，topic,消息）
         TransactionSendResult transactionSendResult = rocketMqTemplate.sendMessageInTransaction(

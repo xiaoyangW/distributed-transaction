@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class Order {
 
     private Long id;
+    private String orderNo;
     private Long userId;
     private Long productId;
     private Integer count;
