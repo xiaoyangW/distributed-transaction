@@ -14,9 +14,10 @@ public interface OrderMapper {
     /**
      * 插入订单信息
      * @param order 订单信息
+     * @return int
      */
     @Insert("insert into `order`(user_id,product_id,count,money,`status`,order_no)values(#{userId},#{productId},#{count},#{money},#{status},#{orderNo})")
-    void addOrder(Order order);
+    int addOrder(Order order);
 
     @Results(id = "orderMap",value = {
             @Result(property = "id",column = "id"),

@@ -7,4 +7,5 @@ public interface OrderService {
 
     void createOrder(Order order);
 
+    boolean mqCreateOrder(Order order);
 }

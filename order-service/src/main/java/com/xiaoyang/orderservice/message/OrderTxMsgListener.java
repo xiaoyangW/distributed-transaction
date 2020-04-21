@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.xiaoyang.orderservice.controller.OrderController;
 import com.xiaoyang.orderservice.entity.Order;
 import com.xiaoyang.orderservice.mapper.OrderMapper;
+import com.xiaoyang.orderservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
@@ -22,32 +23,31 @@ import org.springframework.stereotype.Component;
 public class OrderTxMsgListener implements RocketMQLocalTransactionListener {
 
     @Autowired
-    private  OrderMapper orderMapper;
+    private OrderService orderService;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object o) {
         try {
-            String jsonOrder = new String((byte[])message.getPayload());
-            log.info("消息发送成功：{}",new String((byte[])message.getPayload()));
-            //幂等
+            String jsonOrder = new String((byte[]) message.getPayload());
+            log.info("消息发送成功：{}", new String((byte[]) message.getPayload()));
             Order order = JSON.parseObject(jsonOrder, Order.class);
-            if (orderMapper.getOrderCount(order.getOrderNo())>0){
-                return RocketMQLocalTransactionState.COMMIT;
-            }
-            orderMapper.addOrder(order);
-            return RocketMQLocalTransactionState.COMMIT;
-        }catch (Exception e){
+            orderService.mqCreateOrder(order);
+            return orderService.mqCreateOrder(order) ? RocketMQLocalTransactionState.COMMIT : RocketMQLocalTransactionState.ROLLBACK;
+        } catch (Exception e) {
             return RocketMQLocalTransactionState.ROLLBACK;
         }
     }
 
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
-        String jsonOrder = new String((byte[])message.getPayload());
-        log.info("消息回查：{}",new String((byte[])message.getPayload()));
+        String jsonOrder = new String((byte[]) message.getPayload());
+        log.info("消息回查：{}", new String((byte[]) message.getPayload()));
         //幂等
         Order order = JSON.parseObject(jsonOrder, Order.class);
-        if (orderMapper.getOrderCount(order.getOrderNo())>0){
+        if (orderMapper.getOrderCount(order.getOrderNo()) > 0) {
             return RocketMQLocalTransactionState.COMMIT;
         }
         return RocketMQLocalTransactionState.UNKNOWN;
